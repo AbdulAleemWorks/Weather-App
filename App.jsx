@@ -8,12 +8,13 @@
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootNavigator } from './app/navigation/navigation';
-import "./global.css";
+import './global.css';
+
 
 function App() {
+  console.log('🚀 App component rendering');
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle="dark-content" />
       <RootNavigator />
     </SafeAreaProvider>
   );

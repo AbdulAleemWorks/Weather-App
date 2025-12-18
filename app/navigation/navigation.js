@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 const Stack = createNativeStackNavigator();
 
 export function RootNavigator() {
+    console.log('🧭 RootNavigator initializing');
     return (
         <NavigationContainer>
             <Stack.Navigator>
