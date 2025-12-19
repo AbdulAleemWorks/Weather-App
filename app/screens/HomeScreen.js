@@ -1,41 +1,63 @@
-import { Text, View } from 'react-native'
-import React, { Component } from 'react'
+import { Image, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { theme } from '../../theme/index.js'
+import {MagnifyingGlassIcon} from 'react-native-heroicons/outline'
+import {MapPinIcon} from 'react-native-heroicons/solid'
 
-export class HomeScreen extends Component {
-  componentDidMount() {
-    console.log('✅ HomeScreen component mounted');
-  }
 
-  render() {
-    console.log('📱 HomeScreen rendering');
-    return (
-      <View className="flex-1 bg-blue-500">
-        {/* Location */}
-        <View className="flex-row justify-center mt-10">
-          <Text className="text-white text-xl font-bold">New York</Text>
-        </View>
-
-        {/* Temperature and Condition */}
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-white text-6xl font-bold">25°</Text>
-          <Text className="text-white text-xl mt-2">Sunny</Text>
-        </View>
-
-        {/* Additional Info */}
-        <View className="flex-row justify-between px-10 mb-10">
-          <View className="items-center">
-            <Text className="text-white text-lg">Humidity</Text>
-            <Text className="text-white text-lg font-bold">60%</Text>
+export default function HomeScreen() {
+  const [showSearch, setShowSearch] = useState(false);
+  const[location, setLocation] = useState(null);
+  return (
+    <View className="flex-1 relative">
+    <StatusBar barStyle="light-content" />
+      <Image blurRadius={60} source={require('../../assets/images/bg.png')}
+      className='absolute h-full w-full'/>
+    <SafeAreaView className="flex-1 ">
+      {/* Search Section */}
+      <View style={{height:'7%'}} className='mx-4 relative z-50'>
+        <View className='justify-end flex-row items-center rounded-full'
+        style={{backgroundColor: showSearch?theme.bgWhite(0.2):('transparent')}}>
+          {
+            showSearch?(
+            <TextInput
+              placeholder='Search for city'
+              placeholderTextColor='white'
+              className='pl-6 h-full flex-1 text-white text-lg font-light'
+            />
+            ):null
+          }
+          <TouchableOpacity
+          onPress={() => setShowSearch(prev => !prev)}
+          style ={{backgroundColor: theme.bgWhite(0.3)}}
+          className='rounded-full p-3 m-1 mr-2'>
+            <MagnifyingGlassIcon size="25" stroke='white' />
+          </TouchableOpacity>
           </View>
-          <View className="items-center">
-            <Text className="text-white text-lg">Wind</Text>
-            <Text className="text-white text-lg font-bold">5 km/h</Text>
-          </View>
-        </View>
       </View>
-    )
-  }
+      {
+        location.length>0 && showSearch?(
+          <View className='absolute w-full bg-gray-300 top-16 rounded-3xl' >
+            {
+              location.map((loc, index)=>{
+                return (
+                  <TouchableOpacity 
+                  key={index} 
+                  className='flex-row items-center border-0  p-4 border-b border-gray-500'>
+                  <MapPinIcon size="30" color='gray'/>
+                  <Text className='text-lg'>
+                  Isb, Pakistan
+                  </Text>
+                
+                </TouchableOpacity>
+                )
+              }) 
+            }
+          </View>
+        ):null
+      }
+    </SafeAreaView>
+    </View>
+  )
 }
-
-export default HomeScreen

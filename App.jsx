@@ -8,15 +8,19 @@
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootNavigator } from './app/navigation/navigation';
+import { enableScreens } from 'react-native-screens';
+
+
 import './global.css';
 
 
 function App() {
   console.log('🚀 App component rendering');
+    enableScreens();
   return (
-    <SafeAreaProvider>
+    <>
       <RootNavigator />
-    </SafeAreaProvider>
+    </>
   );
 }
 
