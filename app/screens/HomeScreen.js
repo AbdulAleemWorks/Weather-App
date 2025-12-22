@@ -1,8 +1,8 @@
-import { Image, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { theme } from '../../theme/index.js'
-import {MagnifyingGlassIcon} from 'react-native-heroicons/outline'
+import {CalendarDaysIcon, MagnifyingGlassIcon} from 'react-native-heroicons/outline'
 import {MapPinIcon} from 'react-native-heroicons/solid'
 
 
@@ -101,8 +101,74 @@ export default function HomeScreen() {
         </View>
       </View>
       {/* Weekly Forecast */}
+      {/* Heading */}
       <View className='mb-2 space-y-3'>
-        <Text className='text-white text-lg font-light'>Weekly Forecast</Text>
+        <View className='flex-row items-center mx-5 space-x-2'>
+          <CalendarDaysIcon size="30" stroke='white'/>
+          <Text className='text-white text-lg mx-2'>Daily Forecast</Text>
+        </View>
+        {/* Content */}
+        <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{paddingHorizontal:15}}>
+          <View 
+          className='flex justify-center mt-4 mx-2 items-center w-24 rounded-3xl space-y-1 py-4'
+          style={{backgroundColor:theme.bgWhite(0.1)}}>
+          <Image source={require('../../assets/images/mist.png')}
+          className='w-7 h-7  '/>
+          <Text className='text-white text-lg'>Sunday</Text>
+          <Text className='text-white text-2xl'>20°</Text>
+          </View>
+          <View 
+          className='flex justify-center mt-4 mx-2 items-center w-24 rounded-3xl space-y-1 py-4'
+          style={{backgroundColor:theme.bgWhite(0.1)}}>
+          <Image source={require('../../assets/images/mist.png')}
+          className='w-7 h-7  '/>
+          <Text className='text-white text-lg'>Monday</Text>
+          <Text className='text-white text-2xl'>20°</Text>
+          </View>
+          <View 
+          className='flex justify-center mt-4 mx-2 items-center w-24 rounded-3xl space-y-1 py-4'
+          style={{backgroundColor:theme.bgWhite(0.1)}}>
+          <Image source={require('../../assets/images/mist.png')}
+          className='w-7 h-7  '/>
+          <Text className='text-white text-lg'>Tuesday</Text>
+          <Text className='text-white text-2xl'>20°</Text>
+          </View>
+          <View 
+          className='flex justify-center mt-4 mx-2 items-center w-24 rounded-3xl space-y-1 py-4'
+          style={{backgroundColor:theme.bgWhite(0.1)}}>
+          <Image source={require('../../assets/images/mist.png')}
+          className='w-7 h-7  '/>
+          <Text className='text-white text-lg'>Wednesday</Text>
+          <Text className='text-white text-2xl'>20°</Text>
+          </View>
+          <View 
+          className='flex justify-center mt-4 mx-2 items-center w-24 rounded-3xl space-y-1 py-4'
+          style={{backgroundColor:theme.bgWhite(0.1)}}>
+          <Image source={require('../../assets/images/mist.png')}
+          className='w-7 h-7  '/>
+          <Text className='text-white text-lg'>Thursday</Text>
+          <Text className='text-white text-2xl'>20°</Text>
+          </View>
+          <View 
+          className='flex justify-center mt-4 mx-2 items-center w-24 rounded-3xl space-y-1 py-4'
+          style={{backgroundColor:theme.bgWhite(0.1)}}>
+          <Image source={require('../../assets/images/mist.png')}
+          className='w-7 h-7  '/>
+          <Text className='text-white text-lg'>Friday</Text>
+          <Text className='text-white text-2xl'>20°</Text>
+          </View>
+          <View 
+          className='flex justify-center mt-4 mx-2 items-center w-24 rounded-3xl space-y-1 py-4'
+          style={{backgroundColor:theme.bgWhite(0.1)}}>
+          <Image source={require('../../assets/images/mist.png')}
+          className='w-7 h-7  '/>
+          <Text className='text-white text-lg'>Saturday</Text>
+          <Text className='text-white text-2xl'>20°</Text>
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
     </View>
