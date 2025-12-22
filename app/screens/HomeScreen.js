@@ -1,17 +1,26 @@
 import { Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { theme } from '../../theme/index.js'
 import {CalendarDaysIcon, MagnifyingGlassIcon} from 'react-native-heroicons/outline'
 import {MapPinIcon} from 'react-native-heroicons/solid'
-
+import {debounce} from 'lodash';
+import {getLocationData} from '../api/weather.js';
 
 export default function HomeScreen() {
   const [showSearch, setShowSearch] = useState(false);
   const[location, setLocation] = useState([1,2,3]);
   const handleLocation=(loc)=>{
-    //fetch weather here
+    console.log('Selected Location:', loc);
   }
+  const handleSearch=value=>{
+    if(value.length>2){
+    getLocationData({cityName:value}).then(data=>{
+      console.log('Location Data:', data);
+    })
+  }
+  }
+  const handleTextDebounce=useCallback(debounce(handleSearch, 1200),[]);
   return (
     <View className="flex-1 relative">
     <StatusBar barStyle="light-content" />
@@ -25,6 +34,7 @@ export default function HomeScreen() {
           {
             showSearch?(
             <TextInput
+              onChangeText={handleTextDebounce}
               placeholder='Search for city'
               placeholderTextColor='white'
               className='pl-6 h-full flex-1 text-white text-lg font-light rounded-full'
