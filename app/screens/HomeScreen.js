@@ -5,22 +5,34 @@ import { theme } from '../../theme/index.js'
 import {CalendarDaysIcon, MagnifyingGlassIcon} from 'react-native-heroicons/outline'
 import {MapPinIcon} from 'react-native-heroicons/solid'
 import {debounce} from 'lodash';
-import {getLocationData} from '../api/weather.js';
+import {getForecastData, getLocationData} from '../api/weather.js';
 
 export default function HomeScreen() {
   const [showSearch, setShowSearch] = useState(false);
-  const[location, setLocation] = useState([1,2,3]);
+  const[locations, setLocation] = useState([]);
+  const[weather, setWeather] = useState({});
+
   const handleLocation=(loc)=>{
-    console.log('Selected Location:', loc);
+    setLocation([]);
+    setShowSearch(false);
+    getForecastData({
+      cityName: loc.name,
+      days:'7'
+    }).then(data=>{
+      setWeather(data);
+    });
   }
   const handleSearch=value=>{
+    // fetch locations
     if(value.length>2){
     getLocationData({cityName:value}).then(data=>{
-      console.log('Location Data:', data);
+      setLocation(data);
     })
   }
   }
   const handleTextDebounce=useCallback(debounce(handleSearch, 1200),[]);
+  const {current,location} = weather;
+
   return (
     <View className="flex-1 relative">
     <StatusBar barStyle="light-content" />
@@ -35,7 +47,7 @@ export default function HomeScreen() {
             showSearch?(
             <TextInput
               onChangeText={handleTextDebounce}
-              placeholder='Search for city'
+               placeholder='Search for city'
               placeholderTextColor='white'
               className='pl-6 h-full flex-1 text-white text-lg font-light rounded-full'
             />
@@ -50,21 +62,21 @@ export default function HomeScreen() {
           </View>
       </View>
       {
-        location.length>0 && showSearch?(
-          <View className='absolute w-11/12 bg-gray-300 top-32 rounded-3xl mr-3 ml-3' >
+        locations.length>0 && showSearch?(
+          <View className='absolute w-11/12 bg-gray-300 top-32 rounded-3xl mx-3' >
             {
-              location.map((loc, index)=>{
-                let showBorderIcon=true?index+1 !=location.length:false;
+              locations.map((loc, index)=>{
+                let showBorderIcon=true?index+1 !=locations.length:false;
                 let borderClass=showBorderIcon?'border-b border-gray-500':'';
                 
                 return (
                   <TouchableOpacity
                   onPress={()=>handleLocation(loc)} 
                   key={index} 
-                  className={'flex-row items-center border-0  p-4 ' + borderClass}>
+                  className={' flex-row items-center border-0  p-4' + borderClass}>
                   <MapPinIcon size="30" color='gray'/>
                   <Text className='text-lg ml-2 color-black'>
-                  Isb, Pakistan
+                  {location?.name}, {location?.country}
                   </Text>
                 </TouchableOpacity>
                 )
@@ -76,8 +88,8 @@ export default function HomeScreen() {
       {/* Location Section */}
       <View className='flex-row items-center justify-start mx-4 mb-8'>
         <MapPinIcon size="25" color={theme.bgWhite(0.8)} />
-        <Text className='text-white text-3xl font-bold'>Islamabad ,</Text>
-        <Text className='text-white text-2xl font-light'> Pakistan</Text>
+        <Text className='text-white text-3xl font-bold'>{location?.name} ,</Text>
+        <Text className='text-white text-2xl font-light'> {' '+location?.country}</Text>
       </View>
       {/* Image */}
       <View className='flex-row items-center justify-center mx-4 mb-1'>

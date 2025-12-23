@@ -15,7 +15,6 @@ import './global.css';
 
 
 function App() {
-  console.log('🚀 App component rendering');
     enableScreens();
   return (
     <>
